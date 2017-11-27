@@ -12,7 +12,7 @@ bool trocar (int &, int &); // Função para trocar inteiros
 bool trocar (double &, double &); // Função para trocar double
 void bubblesort (vector <int> &);
 void binary (vector <int> &, int, int, int);
-//void sequencial (vector <int> &, int, int, int);
+void sequencial (vector <int> &, int);
 
 bool teste = true;
 int cont;
@@ -47,9 +47,13 @@ int main(int argc, char **argv)
     int premio = meuvetor [rand() % (meuvetor.size() - 1)];
     cout << "Premio: " << premio << "\n\n";
     
+    cout << "Binary Search\n";
     binary (meuvetor, premio, 1, meuvetor.size());
     
-    //sequencial (meuvetor, premio, 0, meuvetor.size());
+    cout << "\n\n";
+    
+    cout << "Sequencial Search\n";
+    sequencial (meuvetor, premio);
     
     cout << "\n";
     return 0;
@@ -126,7 +130,7 @@ void binary (vector <int> &vetor, int prem, int inicio, int fim)
         cout << "\nA[" << meio+1 << "] = Premio\n";
     }
         else    if (inicio >= fim)
-                cout << "Nao encontrado";
+                cout << "Nao encontrado\n";
                 else    if (vetor [meio] < prem)
                             {
                                 binary(vetor, prem, meio+1, fim);
@@ -137,7 +141,19 @@ void binary (vector <int> &vetor, int prem, int inicio, int fim)
                                     }
 }
 
-//void sequencial (vector <int> &vetor, int prem, int inicio, int fim)
-//{
-    
-//}
+void sequencial (vector <int> &vetor, int prem)
+{
+    for (int i = 0; i < vetor.size() - 1; i++)
+    {
+        cout << "A[" << i+1 << "]: " << vetor [i] << "\n";
+        
+        if (vetor[i] == prem)
+        {
+            cout << "\nA[" << i+1 << "] = Premio\n";
+            break;
+        }
+        
+        if (vetor [i] != prem && i == vetor.size()-1)
+            cout << "Nao encontrado\n";
+    }
+}
