@@ -13,40 +13,25 @@ bool trocar (double &, double &); // Função para trocar double
 void bubblesort (vector <int> &);
 void binary (vector <int> &, int, int, int);
 void sequencial (vector <int> &, int);
+void fillvector (vector <int> &);
 
 bool teste = true;
 int cont;
-char resposta;
 
 int main(int argc, char **argv)
 {
     srand (time(NULL)); //Redefine os números aleatórios a cada execução
     
-    vector <int> meuvetor (0);
+    vector<int> meuvetor (0);
     
-    while (teste == true)
-    {
-        meuvetor.push_back(rand() % 20);
-        cout << "A[" << meuvetor.size() << "]: " << meuvetor.back() << "\n \n";
-        
-        resposta = 'a';
-        while (resposta != 's' && resposta != 'n')
-        {
-            cout << "Deseja entrar com um novo valor? (s/n)\n";
-            cin >> resposta;
-            cout << "\n";
-        }
-        
-        if (resposta == 's')
-            teste = true;
-            else teste = false;
-    }
+    fillvector( meuvetor );
     
-    bubblesort (meuvetor);
+    bubblesort( meuvetor );
     
     int premio = meuvetor [rand() % (meuvetor.size() - 1)];
     cout << "Premio: " << premio << "\n\n";
     
+    // Fazer média das execuções
     cout << "Binary Search\n";
     binary (meuvetor, premio, 1, meuvetor.size());
     
@@ -119,41 +104,65 @@ bool trocar (double &x, double &y)
     else return false;
 }
 
-void binary (vector <int> &vetor, int prem, int inicio, int fim)
+void binary (vector <int> &vetor, int chave, int inicio, int fim)
 {
     int meio = (inicio + fim) / 2;
     
     cout << "A[" << meio+1 << "]: " << vetor [meio] << "\n";
     
-    if (vetor [meio] == prem)
+    if (vetor [meio] == chave)
     {
         cout << "\nA[" << meio+1 << "] = Premio\n";
     }
         else    if (inicio >= fim)
                 cout << "Nao encontrado\n";
-                else    if (vetor [meio] < prem)
+                else    if (vetor [meio] < chave)
                             {
-                                binary(vetor, prem, meio+1, fim);
+                                binary(vetor, chave, meio+1, fim);
                             }
-                            else    if (vetor [meio] > prem)
+                            else    if (vetor [meio] > chave)
                                     {
-                                        binary(vetor, prem, inicio, meio-1);
+                                        binary(vetor, chave, inicio, meio-1);
                                     }
 }
 
-void sequencial (vector <int> &vetor, int prem)
+void sequencial (vector <int> &vetor, int chave)
 {
     for (int i = 0; i < vetor.size() - 1; i++)
     {
         cout << "A[" << i+1 << "]: " << vetor [i] << "\n";
         
-        if (vetor[i] == prem)
+        if (vetor[i] == chave)
         {
             cout << "\nA[" << i+1 << "] = Premio\n";
             break;
         }
         
-        if (vetor [i] != prem && i == vetor.size()-1)
+        if (vetor [i] != chave && i == vetor.size()-1)
             cout << "Nao encontrado\n";
+    }
+}
+
+void fillvector (vector <int> &vetor)
+{
+    //Usuário insere o tamanho do vetor.
+    char resposta;
+    
+    while (teste == true)
+    {
+        vetor.push_back( rand( ) % 20 );
+        cout << "A[" << vetor.size() << "]: " << vetor.back() << "\n \n";
+        
+        resposta = 'a';
+        while (resposta != 's' && resposta != 'n')
+        {
+            cout << "Deseja entrar com um novo valor? (s/n)\n";
+            cin >> resposta;
+            cout << "\n";
+        }
+        
+        if (resposta == 's')
+            teste = true;
+            else teste = false;
     }
 }
