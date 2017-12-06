@@ -15,44 +15,58 @@ void binary (vector <int> &, int, int, int);
 void sequencial (vector <int> &, int);
 void fillvector (vector <int> &);
 
-bool teste = true;
+bool teste = false;
 int cont;
+int exec_bin = 0;
+int exec_seq = 0;
 
 int main(int argc, char **argv)
 {
     srand (time(NULL)); //Redefine os números aleatórios a cada execução
     
+    int ITER = 10;
+    int novotamanho;
+    
     vector<int> meuvetor (0);
     
-    fillvector( meuvetor );
+    while (meuvetor.size() < 2 || meuvetor.size() > 20)
+    {
+        cout << "Insira o tamanho do vetor (2 a 20): \n";
+        cin >> novotamanho;
+        meuvetor.resize( novotamanho );
+    }
     
-    bubblesort( meuvetor );
+    for (int i = 0; i < ITER; i++)
+    {
+        cout << "ITERACAO " << i+1 << "\n\n";
+        
+        fillvector( meuvetor );
+        
+        bubblesort( meuvetor );
     
-    int premio = meuvetor [rand() % (meuvetor.size() - 1)];
-    cout << "Premio: " << premio << "\n\n";
+        int premio = meuvetor [rand() % (meuvetor.size() - 1)];
+        cout << "Premio: " << premio << "\n\n";
     
-    // Fazer média das execuções
-    cout << "Binary Search\n";
-    binary (meuvetor, premio, 1, meuvetor.size());
+        // Fazer média das execuções
+        cout << "Binary Search\n";
+        binary (meuvetor, premio, 1, meuvetor.size());
     
-    cout << "\n\n";
+        cout << "\n\n";
     
-    cout << "Sequencial Search\n";
-    sequencial (meuvetor, premio);
+        cout << "Sequencial Search\n";
+        sequencial (meuvetor, premio);
     
-    cout << "\n";
+        cout << "\n\n";
+    }
+    
+    cout << "Media de tentativas em Binary Search: " << exec_bin / ITER << "\n";
+    cout << "Media de tentativas em Sequencial Search: " << exec_seq / ITER << "\n";
+    
     return 0;
 }
 
 void bubblesort (vector <int> &vetor)
 {
-    for (int i = 0; i < vetor.size(); i++) //Loop de repetição para definir os valores das células
-    {
-        cout << "A[" << i+1 << "]: " << vetor[i] << "\n";
-    }
-
-    cout << "\n";
-
     while (teste == false) //Loop de teste para verificar se o vetor está em ordem (Só precisa executar no mínimo uma vez)
     {
         teste = true;
@@ -106,6 +120,8 @@ bool trocar (double &x, double &y)
 
 void binary (vector <int> &vetor, int chave, int inicio, int fim)
 {
+    exec_bin++;
+    
     int meio = (inicio + fim) / 2;
     
     cout << "A[" << meio+1 << "]: " << vetor [meio] << "\n";
@@ -130,6 +146,8 @@ void sequencial (vector <int> &vetor, int chave)
 {
     for (int i = 0; i < vetor.size() - 1; i++)
     {
+        exec_seq++;
+        
         cout << "A[" << i+1 << "]: " << vetor [i] << "\n";
         
         if (vetor[i] == chave)
@@ -144,25 +162,11 @@ void sequencial (vector <int> &vetor, int chave)
 }
 
 void fillvector (vector <int> &vetor)
-{
-    //Usuário insere o tamanho do vetor.
-    char resposta;
-    
-    while (teste == true)
+{   
+    for (int i = 0; i < vetor.size(); i++)
     {
-        vetor.push_back( rand( ) % 20 );
-        cout << "A[" << vetor.size() << "]: " << vetor.back() << "\n \n";
-        
-        resposta = 'a';
-        while (resposta != 's' && resposta != 'n')
-        {
-            cout << "Deseja entrar com um novo valor? (s/n)\n";
-            cin >> resposta;
-            cout << "\n";
-        }
-        
-        if (resposta == 's')
-            teste = true;
-            else teste = false;
+        vetor [ i ] = rand() % 20;
+        cout << "A[" << i+1 << "]: " << vetor [ i ] << "\n";
     }
+    cout << "\n";
 }
